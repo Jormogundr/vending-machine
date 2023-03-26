@@ -8,6 +8,7 @@
 
 #include "../../gen-cpp/OrderBeverageService.h"
 #include "../../gen-cpp/WeatherService.h"
+#include "../../gen-cpp/BeveragePreferenceService.h"
 
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
@@ -100,7 +101,7 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
     }
     _beverage_pref_client_pool->Push(beverage_pref_client_wrapper);
     
-  // 5. Return beverage name
+  // 5. Set return value
     _return = beverage;
 
 #endif

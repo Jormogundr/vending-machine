@@ -38,13 +38,17 @@ int main(int argc, char **argv) {
   // 3: get my port
   int my_port = config_json["order-beverage-service"]["port"];
 
-  // 4: get the weather service's port and address
+  // 4: get the weather service's port and address, and brev-pref as well
   int weather_service_port = config_json["weather-service"]["port"];
   std::string weather_service_addr = config_json["weather-service"]["addr"];
+  int brev_pref_service_port = config_json["beverage-preference-service"]["port"];
+  std::string brev_pref_service_addr = config_json["beverage-preference-service"]["addr"];
  
-  // 5: get the client of weather-service
+  // 5: get the client of weather-service and bev-pref-service
   ClientPool<ThriftClient<WeatherServiceClient>> weather_client_pool(
       "weather-service", weather_service_addr, weather_service_port, 0, 128, 1000);
+  ClientPool<ThriftClient<BeveragePreferenceServiceClient>> weather_client_pool(
+      "beverage-preference-service", brev_pref_service_addr, brev_pref_service_port, 0, 128, 1000);
 
   // 6: configure this server
   TThreadedServer server(
