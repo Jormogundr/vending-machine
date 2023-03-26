@@ -16,7 +16,7 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from vending_machine import OrderBeverageService
+from vending_machine import BeveragePreferenceService
 from vending_machine.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
@@ -24,7 +24,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  string PlaceOrder(i64 city)')
+    print('  BeverageType getBeverage(string beverage)')
     print('')
     sys.exit(0)
 
@@ -101,14 +101,14 @@ else:
     else:
         transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol(transport)
-client = OrderBeverageService.Client(protocol)
+client = BeveragePreferenceService.Client(protocol)
 transport.open()
 
-if cmd == 'PlaceOrder':
+if cmd == 'getBeverage':
     if len(args) != 1:
-        print('PlaceOrder requires 1 args')
+        print('getBeverage requires 1 args')
         sys.exit(1)
-    pp.pprint(client.PlaceOrder(eval(args[0]),))
+    pp.pprint(client.getBeverage(args[0],))
 
 else:
     print('Unrecognized method %s' % cmd)

@@ -6,7 +6,8 @@
 #include <regex>
 #include <future>
 #include <vector>
-#include "../../gen-cpp/WeatherService.h"
+
+#include "../../gen-cpp/BeveragePreferenceService.h"
 
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
@@ -14,15 +15,14 @@
 
 namespace vending_machine{
 
-
 class BeveragePreferenceServiceHandler : public BeveragePreferenceServiceIf {
  public:
   BeveragePreferenceServiceHandler();
   ~BeveragePreferenceServiceHandler() override=default;
 
-  std::string getBeverage(BeverageType::type btype) override;
-  vector<std::string> cold_drinks = {"cappuccino", "latte", "espresso"};
-  vector<std::string> hot_drinks = {"lemonade", "ice tea", "soda"}; 
+  std::string getBeverage(const BeverageType::type btype) override;
+  std::vector<std::string> cold_drinks = {"cappuccino", "latte", "espresso"};
+  std::vector<std::string> hot_drinks = {"lemonade", "ice tea", "soda"}; 
 };
 
 // Constructor
@@ -30,15 +30,16 @@ BeveragePreferenceServiceHandler::BeveragePreferenceServiceHandler() {
 
 }
 
-string BeveragePreferenceServiceHandler::getBeverage(BeverageType::type btype) {
+
+std::string BeveragePreferenceServiceHandler::getBeverage(const BeverageType::type btype) {
+    printf("get Beverage\n");
     // initialize random seed
     srand (time(NULL));
-    if (btype == "HOT") {
-        // randomly select hot beverage
+    // randomly select hot beverage else randomly select a cold beverage
+    if (btype == 0) {
         return hot_drinks[rand() % 2];
     }
     else {
-        // randomly select a cold beverage
         return cold_drinks[3 + rand() % 5];
     }
 }
