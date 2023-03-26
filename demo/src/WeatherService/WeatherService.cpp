@@ -51,6 +51,5 @@ int main(int argc, char **argv) {
   std::cout << "Starting the weather server ..." << std::endl;
   server.serve();
   return 0;
-  
 }
 
