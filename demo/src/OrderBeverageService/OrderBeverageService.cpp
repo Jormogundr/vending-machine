@@ -38,25 +38,19 @@ int main(int argc, char **argv) {
   // 3: get my port
   int my_port = config_json["order-beverage-service"]["port"];
 
-  // 4: get the weather service's port and address, and brev-pref as well
+  // 4: get the weather service's port and address
   int weather_service_port = config_json["weather-service"]["port"];
   std::string weather_service_addr = config_json["weather-service"]["addr"];
-  int brev_pref_service_port = config_json["beverage-preference-service"]["port"];
-  std::string brev_pref_service_addr = config_json["beverage-preference-service"]["addr"];
  
-  // 5: get the client of weather-service and bev-pref-service
-  ClientPool<ThriftClient<WeatherServiceClient>> weather_client_pool("weather-service", weather_service_addr, weather_service_port, 0, 128, 1000);
-  ClientPool<ThriftClient<BeveragePreferenceServiceClient>> bev_prev_pool("beverage-preference-service", brev_pref_service_addr, brev_pref_service_port, 0, 128, 1000);
+  // 5: get the client of weather-service
+  ClientPool<ThriftClient<WeatherServiceClient>> weather_client_pool(
+      "weather-service", weather_service_addr, weather_service_port, 0, 128, 1000);
 
   // 6: configure this server
-  TThreadedServer server1(
-      std::make_shared<OrderBeverageServiceProcessor>(std::make_shared<OrderBeverageServiceHandler>(&weather_client_pool)),
-      std::make_shared<TServerSocket>("0.0.0.0", my_port),
-      std::make_shared<TFramedTransportFactory>(),
-      std::make_shared<TBinaryProtocolFactory>()
-  );
-    TThreadedServer server2(
-      std::make_shared<OrderBeverageServiceProcessor>(std::make_shared<OrderBeverageServiceHandler>(&bev_prev_pool)),
+  TThreadedServer server(
+      std::make_shared<OrderBeverageServiceProcessor>(
+          std::make_shared<OrderBeverageServiceHandler>(
+              &weather_client_pool)),
       std::make_shared<TServerSocket>("0.0.0.0", my_port),
       std::make_shared<TFramedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>()
@@ -64,8 +58,7 @@ int main(int argc, char **argv) {
   
   // 7: start the server
   std::cout << "Starting the order-beverage server ..." << std::endl;
-  server1.serve();
-  server2.serve();
+  server.serve();
   return 0;
 }
 

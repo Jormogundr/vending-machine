@@ -6,9 +6,7 @@
 #include <regex>
 #include <future>
 
-#include "../../gen-cpp/OrderBeverageService.h"
 #include "../../gen-cpp/WeatherService.h"
-#include "../../gen-cpp/BeveragePreferenceService.h"
 
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
@@ -35,8 +33,8 @@ WeatherType::type WeatherServiceHandler::GetWeather(const int64_t city) {
      // Your implementation goes here
      printf("GetWeather\n");
 
-    // decide weather type based on evenness of city ID 
-    return (0 == city % 2) ? WeatherType::type::COLD : WeatherType::type::WARM;
+    // randomly select a weather
+    return (city % 2 == 0) ? WeatherType::type::WARM : WeatherType::type::COLD;
 }
 
 } // namespace vending_machine

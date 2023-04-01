@@ -1,1 +1,1 @@
-__all__ = ['ttypes', 'constants', 'OrderBeverageService', 'UpdateWeatherService', 'WeatherService', 'BeveragePreferenceService']
+__all__ = ['ttypes', 'constants', 'OrderBeverageService', 'UpdateWeatherService', 'WeatherService']
