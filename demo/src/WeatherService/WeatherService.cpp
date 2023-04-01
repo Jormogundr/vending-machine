@@ -40,8 +40,7 @@ int main(int argc, char **argv) {
 
   // 4: configure this server
   TThreadedServer server(
-      std::make_shared<WeatherServiceProcessor>(
-          std::make_shared<WeatherServiceHandler>()),
+      std::make_shared<WeatherServiceProcessor>(std::make_shared<WeatherServiceHandler>()),
       std::make_shared<TServerSocket>("0.0.0.0", my_port),
       std::make_shared<TFramedTransportFactory>(),
       std::make_shared<TBinaryProtocolFactory>()

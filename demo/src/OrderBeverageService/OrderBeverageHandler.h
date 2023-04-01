@@ -80,6 +80,7 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
 
     // 3. get the beverage preference service client pool
     auto beverage_pref_client_wrapper = _beverage_pref_client_pool->Pop();
+    
     if (!beverage_pref_client_wrapper) {
       ServiceException se;
       se.errorCode = ErrorCode::SE_THRIFT_CONN_ERROR;

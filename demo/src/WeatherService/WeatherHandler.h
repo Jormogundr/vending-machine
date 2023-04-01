@@ -6,7 +6,9 @@
 #include <regex>
 #include <future>
 
+#include "../../gen-cpp/OrderBeverageService.h"
 #include "../../gen-cpp/WeatherService.h"
+#include "../../gen-cpp/BeveragePreferenceService.h"
 
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
