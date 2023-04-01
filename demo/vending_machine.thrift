@@ -57,7 +57,7 @@ service WeatherService{
 
 service BeveragePreferenceService{
 	string getBeverage(
-		1: BeverageType
-	)
+		1: BeverageType btype
+	)throws (1: ServiceException se)
 }
 

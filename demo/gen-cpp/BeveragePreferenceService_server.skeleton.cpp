@@ -20,6 +20,11 @@ class BeveragePreferenceServiceHandler : virtual public BeveragePreferenceServic
     // Your initialization goes here
   }
 
+  void getBeverage(std::string& _return, const BeverageType::type btype) {
+    // Your implementation goes here
+    printf("getBeverage\n");
+  }
+
 };
 
 int main(int argc, char **argv) {
