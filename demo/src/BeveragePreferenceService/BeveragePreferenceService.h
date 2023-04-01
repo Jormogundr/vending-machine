@@ -39,10 +39,10 @@ void BeveragePreferenceServiceHandler::getBeverage(std::string& _return, Beverag
     std::vector<std::string> coldDrinks = {"lemonade", "ice tea", "soda"}; 
 
     if (btype == BeverageType::type::HOT) {
-        _return = hotDrinks[rand() % 3];
+        _return = coldDrinks[rand() % 3];
     }
     else {
-        _return = coldDrinks[rand() % 3];
+        _return = hotDrinks[rand() % 3];
     }
 }
 
