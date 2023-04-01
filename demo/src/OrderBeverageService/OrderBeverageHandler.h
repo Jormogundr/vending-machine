@@ -40,7 +40,6 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
      // Your implementation goes here
      printf("PlaceOrder\n");
 
-     //return BeverageType::type::COLD;
 #if 1   
     // 1. get the weather service client pool
     auto weather_client_wrapper = _weather_client_pool->Pop();
@@ -52,10 +51,11 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
       throw se;
     }
     auto weather_client = weather_client_wrapper->GetClient();
-    auto beverage_client = beverage_preference_wrapper->GetClient();
+    
 
-    // by default get cold
+    // initialize weatherType
     WeatherType::type weatherType = WeatherType::type::COLD;
+    
 
     // 2. call the remote procedure : GetWeather
     try {
@@ -66,12 +66,25 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
       throw;
     }
     _weather_client_pool->Push(weather_client_wrapper);
-    
-   // 3. business logic
-   if(weatherType == WeatherType::type::WARM)
-	_return = "Cold beverage";//BeverageType::type::COLD;
-   else
-	   _return = "Hot beverage";//BeverageType::type::HOT;
+
+    auto beverage_client = beverage_preference_wrapper->GetClient();
+    // initialize beverageType
+    BeverageType::type beverageType;
+    if (weatherType == WeatherType::type::WARM)
+      beverageType = BeverageType::type::COLD;
+    else
+      beverageType = BeverageType::type::HOT;
+
+    // 2. call the remote procedure : getBeverage
+    try {
+	      beverage_client->getBeverage(_return, beverageType);
+    } catch (...) {
+      _beverage_preference_client_pool->Push(beverage_preference_wrapper);
+      LOG(error) << "Failed to send call getBeverage to beverage-client";
+      throw;
+    }
+    _beverage_preference_client_pool->Push(beverage_preference_wrapper);
+
 #endif
 }
 

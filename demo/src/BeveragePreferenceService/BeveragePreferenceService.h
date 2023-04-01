@@ -21,14 +21,14 @@ class BeveragePreferenceServiceHandler : public BeveragePreferenceServiceIf {
     BeveragePreferenceServiceHandler();
     ~BeveragePreferenceServiceHandler() override=default;
     
-    void getBeverage(std::string& _return, const BeverageType::type btype) override;
+    void getBeverage(std::string& _return, BeverageType::type btype) override;
 };
 
 // Constructor
 BeveragePreferenceServiceHandler::BeveragePreferenceServiceHandler() { }
 
 // getBeverage
-void BeveragePreferenceServiceHandler::getBeverage(std::string& _return, const BeverageType::type btype) {
+void BeveragePreferenceServiceHandler::getBeverage(std::string& _return, BeverageType::type btype) {
     printf("get Beverage\n");
 
     // initialize random seed
@@ -36,13 +36,13 @@ void BeveragePreferenceServiceHandler::getBeverage(std::string& _return, const B
 
     // define drink choices
     std::vector<std::string> hotDrinks = {"cappuccino", "latte", "espresso"};
-    std::vector<std::string> coldDrinks = {"lemondate", "ice tea", "soda"}; 
+    std::vector<std::string> coldDrinks = {"lemonade", "ice tea", "soda"}; 
 
-    if (btype == 0) {
-        _return = hotDrinks[rand() % 2];
+    if (btype == BeverageType::type::HOT) {
+        _return = hotDrinks[rand() % 3];
     }
     else {
-        _return = coldDrinks[3 + rand() % 5];
+        _return = coldDrinks[rand() % 3];
     }
 }
 
