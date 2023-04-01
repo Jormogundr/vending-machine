@@ -123,14 +123,6 @@ uint32_t BeveragePreferenceService_getBeverage_result::read(::apache::thrift::pr
           xfer += iprot->skip(ftype);
         }
         break;
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->se.read(iprot);
-          this->__isset.se = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -152,10 +144,6 @@ uint32_t BeveragePreferenceService_getBeverage_result::write(::apache::thrift::p
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
-    xfer += oprot->writeFieldEnd();
-  } else if (this->__isset.se) {
-    xfer += oprot->writeFieldBegin("se", ::apache::thrift::protocol::T_STRUCT, 1);
-    xfer += this->se.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -193,14 +181,6 @@ uint32_t BeveragePreferenceService_getBeverage_presult::read(::apache::thrift::p
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString((*(this->success)));
           this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->se.read(iprot);
-          this->__isset.se = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -272,9 +252,6 @@ void BeveragePreferenceServiceClient::recv_getBeverage(std::string& _return)
     // _return pointer has now been filled
     return;
   }
-  if (result.__isset.se) {
-    throw result.se;
-  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getBeverage failed: unknown result");
 }
 
@@ -322,9 +299,6 @@ void BeveragePreferenceServiceProcessor::process_getBeverage(int32_t seqid, ::ap
   try {
     iface_->getBeverage(result.success, args.btype);
     result.__isset.success = true;
-  } catch (ServiceException &se) {
-    result.se = se;
-    result.__isset.se = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
       this->eventHandler_->handlerError(ctx, "BeveragePreferenceService.getBeverage");
@@ -433,10 +407,6 @@ void BeveragePreferenceServiceConcurrentClient::recv_getBeverage(std::string& _r
         // _return pointer has now been filled
         sentry.commit();
         return;
-      }
-      if (result.__isset.se) {
-        sentry.commit();
-        throw result.se;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getBeverage failed: unknown result");

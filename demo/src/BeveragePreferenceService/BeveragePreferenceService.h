@@ -35,8 +35,8 @@ void BeveragePreferenceServiceHandler::getBeverage(std::string& _return, const B
     srand(time(NULL));
 
     // define drink choices
-    std::vector<std::__cxx11::string> hotDrinks = {"cappuccino", "latte", "espresso"};
-    std::vector<std::__cxx11::string> coldDrinks = {"lemondate", "ice tea", "soda"}; 
+    std::vector<std::string> hotDrinks = {"cappuccino", "latte", "espresso"};
+    std::vector<std::string> coldDrinks = {"lemondate", "ice tea", "soda"}; 
 
     if (btype == 0) {
         _return = hotDrinks[rand() % 2];

@@ -8,6 +8,7 @@
 
 #include "../../gen-cpp/OrderBeverageService.h"
 #include "../../gen-cpp/WeatherService.h"
+#include "../../gen-cpp/BeveragePreferenceService.h"
 
 #include "../ClientPool.h"
 #include "../ThriftClient.h"
@@ -17,21 +18,21 @@ namespace vending_machine{
 
 class OrderBeverageServiceHandler : public OrderBeverageServiceIf {
  public:
-  OrderBeverageServiceHandler(
-		  ClientPool<ThriftClient<WeatherServiceClient>> *) ;
+  OrderBeverageServiceHandler(ClientPool<ThriftClient<WeatherServiceClient>> *, ClientPool<ThriftClient<BeveragePreferenceServiceClient>> *) ;
   ~OrderBeverageServiceHandler() override=default;
 
   void PlaceOrder(std::string& _return, const int64_t city) override;
  private:
   ClientPool<ThriftClient<WeatherServiceClient>> *_weather_client_pool;
+  ClientPool<ThriftClient<BeveragePreferenceServiceClient>> *_beverage_preference_client_pool;
 };
 
 // Constructor
-OrderBeverageServiceHandler::OrderBeverageServiceHandler(
-		ClientPool<ThriftClient<WeatherServiceClient>> *weather_client_pool) {
+OrderBeverageServiceHandler::OrderBeverageServiceHandler(ClientPool<ThriftClient<WeatherServiceClient>> *weather_client_pool,  ClientPool<ThriftClient<BeveragePreferenceServiceClient>> *beverage_preference_client_pool) {
 
      // Storing the clientpool
      _weather_client_pool = weather_client_pool;
+     _beverage_preference_client_pool = beverage_preference_client_pool;
 }
 
 // Remote Procedure "PlaceOrder"
@@ -43,13 +44,15 @@ void OrderBeverageServiceHandler::PlaceOrder(std::string& _return, const int64_t
 #if 1   
     // 1. get the weather service client pool
     auto weather_client_wrapper = _weather_client_pool->Pop();
-    if (!weather_client_wrapper) {
+    auto beverage_preference_wrapper = _beverage_preference_client_pool->Pop();
+    if (!weather_client_wrapper || !beverage_preference_wrapper) {
       ServiceException se;
       se.errorCode = ErrorCode::SE_THRIFT_CONN_ERROR;
-      se.message = "Failed to connect to weather-service";
+      se.message = "Failed to connect to weather-service or beverage-preference-service";
       throw se;
     }
     auto weather_client = weather_client_wrapper->GetClient();
+    auto beverage_client = beverage_preference_wrapper->GetClient();
 
     // by default get cold
     WeatherType::type weatherType = WeatherType::type::COLD;

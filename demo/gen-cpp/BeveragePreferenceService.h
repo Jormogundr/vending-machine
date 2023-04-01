@@ -115,9 +115,8 @@ class BeveragePreferenceService_getBeverage_pargs {
 };
 
 typedef struct _BeveragePreferenceService_getBeverage_result__isset {
-  _BeveragePreferenceService_getBeverage_result__isset() : success(false), se(false) {}
+  _BeveragePreferenceService_getBeverage_result__isset() : success(false) {}
   bool success :1;
-  bool se :1;
 } _BeveragePreferenceService_getBeverage_result__isset;
 
 class BeveragePreferenceService_getBeverage_result {
@@ -130,19 +129,14 @@ class BeveragePreferenceService_getBeverage_result {
 
   virtual ~BeveragePreferenceService_getBeverage_result() noexcept;
   std::string success;
-  ServiceException se;
 
   _BeveragePreferenceService_getBeverage_result__isset __isset;
 
   void __set_success(const std::string& val);
 
-  void __set_se(const ServiceException& val);
-
   bool operator == (const BeveragePreferenceService_getBeverage_result & rhs) const
   {
     if (!(success == rhs.success))
-      return false;
-    if (!(se == rhs.se))
       return false;
     return true;
   }
@@ -158,9 +152,8 @@ class BeveragePreferenceService_getBeverage_result {
 };
 
 typedef struct _BeveragePreferenceService_getBeverage_presult__isset {
-  _BeveragePreferenceService_getBeverage_presult__isset() : success(false), se(false) {}
+  _BeveragePreferenceService_getBeverage_presult__isset() : success(false) {}
   bool success :1;
-  bool se :1;
 } _BeveragePreferenceService_getBeverage_presult__isset;
 
 class BeveragePreferenceService_getBeverage_presult {
@@ -169,7 +162,6 @@ class BeveragePreferenceService_getBeverage_presult {
 
   virtual ~BeveragePreferenceService_getBeverage_presult() noexcept;
   std::string* success;
-  ServiceException se;
 
   _BeveragePreferenceService_getBeverage_presult__isset __isset;
 
